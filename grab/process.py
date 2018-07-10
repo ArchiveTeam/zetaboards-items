@@ -8,7 +8,7 @@ def write_items(items, num):
 
 def main():
     assert len(sys.argv) == 3
-    items = []
+    items = set()
     num = int(sys.argv[2])
     with open(sys.argv[1], 'r') as f:
         for line in f:
@@ -17,12 +17,12 @@ def main():
                 continue
             site, forum, pages = line[1:]
             for i in range(1, int(pages)+1, 3):
-                items.append(':'.join(['forumpage', site, forum, str(i) + '-' \
+                items.add(':'.join(['forumpage', site, forum, str(i) + '-' \
                                        + str(i+2)]))
-            if len(items) == 200000:
-                write_items(items, num)
+            if len(items) >= 200000:
+                write_items(sorted(items), num)
                 num += 1
-                items = []
+                items = set()
     write_items(items, num)
 
 if __name__ == '__main__':
